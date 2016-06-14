@@ -60,5 +60,8 @@ Par exemple avant de créer un évènement je met des données dans l'entité ca
 
 J'ai des données dans ma base, de quoi commencere à travailler sur les controllers et les vues.
 
+4. Routes/controllers vides
+---------------------------
 
-
+je crée mes routes/controllers principaux, tels des case vides je n'aurais plus qu'à les remplir pour implémenter des 
+fonctionnalités.
