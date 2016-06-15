@@ -65,3 +65,18 @@ J'ai des données dans ma base, de quoi commencere à travailler sur les control
 
 je crée mes routes/controllers principaux, tels des case vides je n'aurais plus qu'à les remplir pour implémenter des 
 fonctionnalités.
+
+5. Controllers / Vues : affichage de la liste
+---------------------------------------------
+
+* Je crée pour chaque controller une methode qui récupère via un findAll() toutes les données et le renvoie vers une page 
+(simple) de vue. Affichage des datas de l'entité et des entités liées.
+ - simple mais permet de verifier que tout fonctionne avant d'aller plus loin -
+
+* je place mes vues dans app/ressources/public
+
+* dans mes entités j'ajoute une methode magique __toString() qui me permet de chosir ce qui sera afficher au cas ou on 
+appelerait l'affichage de l'entité sans préciser la propriété.
+ex categorie affichera la même chose que categorie.nom
+
+
