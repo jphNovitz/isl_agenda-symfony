@@ -23,11 +23,14 @@ class CategorieController extends Controller
     /**
      * @Route("/categorie/{id}", name="categorie_detail")
      */
-    public function detailAction()
+    public function detailAction($id)
     {
+        $em=  $this->getDoctrine()->getManager();
+        $repo=$em->getRepository('AppBundle\Entity\Categorie');
+        $categorie=$repo->find($id);
 
 
-        return $this->render();
+        return $this->render('public/categorie-detail.html.twig',['categorie'=>$categorie]);
     }
     
     /**

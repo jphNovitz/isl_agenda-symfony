@@ -4,22 +4,16 @@
     <div id="wrapper">
         <div id="container">
             <div id="welcome">
-                <h1><span>Categories </span> Liste </h1>
+                <h1><span>{{categorie.nom}} </span> Detail </h1>
             </div>
 
             <div id="status">
                 <p>
-                <ul>
-                    {% for categorie in categories %}
-
-                        <li><a href='{{path('categorie_detail',{'id':categorie.id})}}'> {{categorie.nom}}</a></li>
-
-                    {% endfor %}
-                </ul>
+                <li> {{categorie.nom}}</li>
                 </p>
-
+                <p>Pour l'instant les categories n'ont que le nom mais on pourrait facilement ajouter une description</p>
             </div>
-
+                <p><a href="{{path('categorie_list')}}">Retour à la liste </a></p>
 
         </div>
     </div>

@@ -90,5 +90,6 @@ Vues ultra simples et sans design mais permet d'avancer.
 * Je crée trois controleur pour les vues détail et les vues correspondantes.
 * Les liens des listes renvoient aux vues details.
     event_list -> event_detail
+    categorie_list -> categorie_detail
 
 
