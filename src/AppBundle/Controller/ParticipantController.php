@@ -13,9 +13,11 @@ class ParticipantController extends Controller
      */
     public function listAction()
     {
-
-
-        return $this->render();
+        $em=$this->getDoctrine()->getManager();
+        $repo=$em->getRepository('AppBundle\Entity\Participant');
+        $participants=$repo->findAll();
+        
+        return $this->render('public/participant-list.html.twig',['participants'=>$participants]);
     }
     
     /**
