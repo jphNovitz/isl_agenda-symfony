@@ -23,11 +23,14 @@ class ParticipantController extends Controller
     /**
      * @Route("/participant/{id}", name="participant_detail")
      */
-    public function detailAction()
+    public function detailAction($id)
     {
+        $em=$this->getDoctrine()->getManager();
+        $repo=$em->getRepository('AppBundle\Entity\Participant');
+        $participant=$repo->find($id);
 
 
-        return $this->render();
+        return $this->render('public/participant-detail.html.twig',['participant'=>$participant]);
     }
     
     /**

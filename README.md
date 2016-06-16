@@ -91,5 +91,6 @@ Vues ultra simples et sans design mais permet d'avancer.
 * Les liens des listes renvoient aux vues details.
     event_list -> event_detail
     categorie_list -> categorie_detail
+    participant_list -> participant_detail
 
 
