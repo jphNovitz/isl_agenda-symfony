@@ -79,4 +79,8 @@ fonctionnalités.
 appelerait l'affichage de l'entité sans préciser la propriété.
 ex categorie affichera la même chose que categorie.nom
 
+* vues de base pour les liste d'Event, de Participants et de Categorie.
+
+Vues ultra simples et sans design mais permet d'avancer.
+
 

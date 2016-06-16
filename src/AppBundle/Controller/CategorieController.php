@@ -13,9 +13,11 @@ class CategorieController extends Controller
      */
     public function listAction()
     {
-
-
-        return $this->render();
+        $em=  $this->getDoctrine()->getManager();
+        $repo=$em->getRepository('AppBundle\Entity\Categorie');
+        $categories=$repo->findAll();
+        
+        return $this->render('public/categorie-list.html.twig',['categories'=>$categories]);
     }
     
     /**
