@@ -4,21 +4,27 @@
     <div id="wrapper">
         <div id="container">
             <div id="welcome">
-                <h1><span>Evenements </span> Liste </h1>
+                <h1><span>{{event.nom}} </span> ({{event.categorie}}) </h1>
             </div>
 
             <div id="status">
-                <p>
+
+
+
+                <p><img src="{{event.image}}" /> 
+                    {{event.description}} 
+                </p>
+                <p>Participants:
                 <ul>
-                    {% for event in events %}
-                        <li><a href="{{path('event_detail',{'id':event.id})}}">{{event.nom}} </a>({{event.categorie}})</li>
-                    
-                {% endfor %}
+                    {% for participant in event.participants %}
+                        <li> {{participant.nom}}</li>
+                        {% endfor %}
                 </ul>
+
                 </p>
             </div>
 
-
+                        <a href="{{path('event_list')}}">Retour à la liste </a>
         </div>
     </div>
 {% endblock %}

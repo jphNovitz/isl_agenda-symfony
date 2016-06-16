@@ -19,16 +19,21 @@ class EventController extends Controller
         $events=$repo->findAll();
 
         return $this->render('public/event-list.html.twig',['events'=>$events]);
+        //event est au pluriel car je renvoie un tableau de tous les events
     }
     
     /**
      * @Route("/event/{id}", name="event_detail")
      */
-    public function detailAction()
+    public function detailAction($id)
     {
+        $em=$this->getDoctrine()->getManager();
+        $repo=$em->getRepository('AppBundle\Entity\Event');
+        $event=$repo->find($id);
 
 
-        return $this->render();
+        return $this->render('public/event-detail.html.twig',['event'=>$event]);
+        //event est au singulier car je renvoie le detail d'un event
     }
     
     /**

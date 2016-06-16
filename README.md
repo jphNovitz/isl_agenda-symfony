@@ -83,4 +83,12 @@ ex categorie affichera la même chose que categorie.nom
 
 Vues ultra simples et sans design mais permet d'avancer.
 
+6. listes vers details
+----------------------
+
+* Je modifie les vues listes pour qu'elles affichent une sipmle liste nom (categorie)
+* Je crée trois controleur pour les vues détail et les vues correspondantes.
+* Les liens des listes renvoient aux vues details.
+    event_list -> event_detail
+
 
