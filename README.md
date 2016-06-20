@@ -86,12 +86,12 @@ Vues ultra simples et sans design mais permet d'avancer.
 6. listes vers details
 ----------------------
 
-* Je modifie les vues listes pour qu'elles affichent une sipmle liste nom (categorie)
-* Je crée trois controleur pour les vues détail et les vues correspondantes.
-* Les liens des listes renvoient aux vues details.
-    event_list -> event_detail
-    categorie_list -> categorie_detail
-    participant_list -> participant_detail
+* Je modifie les vues listes pour qu'elles affichent une sipmle liste nom (categorie)  
+* Je crée trois controleur pour les vues détail et les vues correspondantes. 
+* Les liens des listes renvoient aux vues details.  
+    event_list -> event_detail  
+    categorie_list -> categorie_detail  
+    participant_list -> participant_detail  
 
 
 7. Formulaires
@@ -102,3 +102,9 @@ Vues ultra simples et sans design mais permet d'avancer.
 ** $ php bin/console doctrine:generate:form AppBundle:Categorie  
 ** $ php bin/console doctrine:generate:form AppBundle:Participant  
 
+* Ajout d'une vue views/admin/categorie_add   
+** Modification de CategorieController par implémentation de la méthode addaµction  
+*** Création du formulaire via modèle CategorieType  
+*** Verification si formulaire est soumit et valide
+*** Si oui -> ajout (persist et flush) l'objet dans la BD et revnoie vers une vue
+*** Si non -> affiche le formulaire  

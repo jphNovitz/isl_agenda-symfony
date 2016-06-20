@@ -2,6 +2,8 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Form\CategorieType;
+use Proxies\__CG__\AppBundle\Entity\Categorie;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -36,11 +38,32 @@ class CategorieController extends Controller
     /**
      * @Route("/admin/categorie/add/", name="categorie_add")
      */
-    public function addAction()
+    public function addAction(Request $request)
     {
+        $categorie=new Categorie();
+        $form=$this->createForm(CategorieType::class,$categorie);
+        
+        $form->add('ajout', \Symfony\Component\Form\Extension\Core\Type\SubmitType::class,
+                ['label' => 'Ajout',]);
+        
+        $form->handleRequest($request);
+        
+        
+        if($form->isSubmitted() && $form->isValid()){
+           
+           
+            $em=$this->getDoctrine()->getManager();
+           
+            $em->persist($categorie);
+            $em->flush();
+            
+           return $this->redirectToRoute('homepage'); 
+        }
+        
+        return $this->render('admin/categorie_add.html.twig',['form'=>$form->createView()]);
 
 
-        return $this->render();
+        
     }
     
     /**
