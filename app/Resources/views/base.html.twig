@@ -3,11 +3,21 @@
     <head>
         <meta charset="UTF-8" />
         <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
-        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
-    </body>
+    {% block stylesheets %}{% endblock %}
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+</head>
+<body>
+    {% block avertissement %}
+        {{ dump(app.session.flashBag.get('success'))}}
+        {% if app.session.flashBag.has('succes') %}
+            <div class="alert alert-success">
+               {% for msg in app.session.flashBag.get('succes') %}
+                  {{msg}}
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endblock %}
+{% block body %}{% endblock %}
+{% block javascripts %}{% endblock %}
+</body>
 </html>

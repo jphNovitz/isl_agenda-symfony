@@ -57,7 +57,11 @@ class CategorieController extends Controller
             $em->persist($categorie);
             $em->flush();
             
-           return $this->redirectToRoute('homepage'); 
+            $request->getSession()
+                    ->getFlashBag()
+                    ->add('success', 'l\'élement a bien été ajouté');
+                    
+           return $this->redirectToRoute('categorie_list'); 
         }
         
         return $this->render('admin/categorie_add.html.twig',['form'=>$form->createView()]);

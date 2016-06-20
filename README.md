@@ -106,5 +106,5 @@ Vues ultra simples et sans design mais permet d'avancer.
 ** Modification de CategorieController par implémentation de la méthode addaµction  
 *** Création du formulaire via modèle CategorieType  
 *** Verification si formulaire est soumit et valide
-*** Si oui -> ajout (persist et flush) l'objet dans la BD et revnoie vers une vue
-*** Si non -> affiche le formulaire  
+*** Si oui -> ajout (persist et flush) l'objet dans la BD et revnoie vers une vue  
+*** Si non -> affiche le formulaire accompagné d'un message flash (variable de session)
