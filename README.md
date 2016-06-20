@@ -108,3 +108,6 @@ Vues ultra simples et sans design mais permet d'avancer.
 *** Verification si formulaire est soumit et valide
 *** Si oui -> ajout (persist et flush) l'objet dans la BD et revnoie vers une vue  
 *** Si non -> affiche le formulaire accompagné d'un message flash (variable de session)
+*** Besoin d'ajouter une containtre pour evitere les erreurs en cas de doublons  
+**** @UniqueEntity(fields="nom", message="Cette Categorie existe dejà !")  dans l'annotation de l'entité
+**** unique=true dans l'annotation qui correspond au champs

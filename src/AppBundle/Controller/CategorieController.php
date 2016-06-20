@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
+
 class CategorieController extends Controller
 {
     /**
@@ -49,7 +50,7 @@ class CategorieController extends Controller
         $form->handleRequest($request);
         
         
-        if($form->isSubmitted() && $form->isValid()){
+        if($form->isSubmitted() && $form->isValid() ){
            
            
             $em=$this->getDoctrine()->getManager();

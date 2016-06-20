@@ -1,6 +1,7 @@
 <?php
 
 namespace AppBundle\Entity;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -9,6 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="categorie")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\CategorieRepository")
+ * @UniqueEntity(fields="nom", message="Cette Categorie existe dejà !")
  */
 class Categorie
 {
