@@ -105,9 +105,14 @@ Vues ultra simples et sans design mais permet d'avancer.
 * Ajout d'une vue views/admin/categorie_add   
 ** Modification de CategorieController par implémentation de la méthode addaµction  
 *** Création du formulaire via modèle CategorieType  
-*** Verification si formulaire est soumit et valide
+*** Verification si formulaire est soumit et valide  
 *** Si oui -> ajout (persist et flush) l'objet dans la BD et revnoie vers une vue  
-*** Si non -> affiche le formulaire accompagné d'un message flash (variable de session)
+*** Si non -> affiche le formulaire accompagné d'un message flash (variable de session)  
 *** Besoin d'ajouter une containtre pour evitere les erreurs en cas de doublons  
-**** @UniqueEntity(fields="nom", message="Cette Categorie existe dejà !")  dans l'annotation de l'entité
-**** unique=true dans l'annotation qui correspond au champs
+**** @UniqueEntity(fields="nom", message="Cette Categorie existe dejà !")  dans l'annotation de l'entité  
+**** unique=true dans l'annotation qui correspond au champs  
+**** methode updateAction a deux routes avec ou sans id, la route sans id met un id par defaut de 0 il est testé plus bas.  
+**** au départ je teste si mon id vaut 0=> si oui je redirrige car je sais que la categorie est inexistante  
+     plus bas je teste si $categorie est nul => je redirrige car j'ai un id mais il ne permet pas de trouver une categorie.  
+
+

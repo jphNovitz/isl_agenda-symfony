@@ -8,11 +8,17 @@
 </head>
 <body>
     {% block avertissement %}
-        {{ dump(app.session.flashBag.get('success'))}}
-        {% if app.session.flashBag.has('succes') %}
+
+        {% if app.session.flashBag.has('success') %}
             <div class="alert alert-success">
-               {% for msg in app.session.flashBag.get('succes') %}
-                  {{msg}}
+                {% for msg in app.session.flashBag.get('success') %}
+                    {{msg}}
+                {% endfor %}
+            </div>
+        {%elseif app.session.flashBag.has('avertissement') %}
+            <div class="alert alert-avertissement">
+                {% for msg in app.session.flashBag.get('avertissement') %}
+                    {{msg}}
                 {% endfor %}
             </div>
         {% endif %}
