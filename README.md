@@ -98,9 +98,9 @@ Vues ultra simples et sans design mais permet d'avancer.
 --------------
 
 * Creation des fichier CategorieType.php, EventType.php,ParticipantType via les commandes:   
-** $ php bin/console doctrine:generate:form AppBundle:Event  
-** $ php bin/console doctrine:generate:form AppBundle:Categorie  
-** $ php bin/console doctrine:generate:form AppBundle:Participant  
++ $ php bin/console doctrine:generate:form AppBundle:Event  
++ $ php bin/console doctrine:generate:form AppBundle:Categorie  
++ $ php bin/console doctrine:generate:form AppBundle:Participant  
 
 * Ajout d'une vue views/admin/categorie_add   
 ** Modification de CategorieController par implémentation de la méthode addaµction  
