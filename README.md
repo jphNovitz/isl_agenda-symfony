@@ -122,7 +122,7 @@ reste a faire les mêmes démarches pour les participants et les events.
 
 **A ce stade je sais que je reviendrais pour essayer de refactorer mes controllers pour les rendres plus courts, pour
 utiliser des méthodes personnalisées dans le repository car pour afficher une liste de categories je n'ai pas besoin de tout récupérer 
-- pas de select * si j'ai juste besoin du nom et de l'id.  Pas de grande différence pour categorie mais pour Event ou Participant cela
+ pas de select * si j'ai juste besoin du nom et de l'id.  Pas de grande différence pour categorie mais pour Event ou Participant cela
 sera plus lourd.  J'utilise des test et des flashbags pour tester certaines chose je devrais peut-être modifier certaines choses pour 
 utiliser la gestion d'exceptions**
 
