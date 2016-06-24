@@ -114,5 +114,15 @@ Vues ultra simples et sans design mais permet d'avancer.
 **** methode updateAction a deux routes avec ou sans id, la route sans id met un id par defaut de 0 il est testé plus bas.  
 **** au départ je teste si mon id vaut 0=> si oui je redirrige car je sais que la categorie est inexistante  
      plus bas je teste si $categorie est nul => je redirrige car j'ai un id mais il ne permet pas de trouver une categorie.  
+**** Suppression : ajout d'un bouton supprimer dans le formulaire update, j'utilise la méthose isClicked() pour tester
+si l'utilisateur souhaite supprimer la categorie. Si oui je redirige vers un formulaire delete qui ne contient qu'un seul bouton:
+'Oui Supprimer !' -> ce bouton enclenche la deleteAction qui supprime la categorie.  
 
+reste a faire les mêmes démarches pour les participants et les events.
+
+**A ce stade je sais que je reviendrais pour essayer de refactorer mes controllers pour les rendres plus courts, pour
+utiliser des méthodes personnalisées dans le repository car pour afficher une liste de categories je n'ai pas besoin de tout récupérer 
+- pas de select * si j'ai juste besoin du nom et de l'id.  Pas de grande différence pour categorie mais pour Event ou Participant cela
+sera plus lourd.  J'utilise des test et des flashbags pour tester certaines chose je devrais peut-être modifier certaines choses pour 
+utiliser la gestion d'exceptions**
 
