@@ -1,0 +1,15 @@
+{# bloc avertissement / flashbags #}
+
+{% if app.session.flashBag.has('success') %}
+    <div class="alert alert-success">
+        {% for msg in app.session.flashBag.get('success') %}
+            {{msg}}
+        {% endfor %}
+    </div>
+{%elseif app.session.flashBag.has('avertissement') %}
+    <div class="alert alert-avertissement">
+        {% for msg in app.session.flashBag.get('avertissement') %}
+            {{msg}}
+        {% endfor %}
+    </div>
+{% endif %}
