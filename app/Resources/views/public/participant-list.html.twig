@@ -1,13 +1,13 @@
 {% extends 'base.html.twig' %}
-
+{% block  page_heading %} Liste des participants {% endblock %}
 {% block body %}
     <p>
     <ul>
-                <ul>
-                    {% for participant in participants %}
-                        <li><a href='{{path('participant_detail',{'id':participant.id})}}'> {{participant.nom}} </a></li>
-                        {% endfor %}
-                </ul>
-                </ul>
+        <ul>
+            {% for participant in participants %}
+                <li><a href='{{path('participant_detail',{'id':participant.id})}}'> {{participant.nom}} </a></li>
+                {% endfor %}
+        </ul>
+    </ul>
 </p>
 {% endblock %}
