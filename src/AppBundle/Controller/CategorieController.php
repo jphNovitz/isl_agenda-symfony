@@ -52,7 +52,7 @@ class CategorieController extends Controller {
         $categorie = new Categorie();
 
         $form = $this->createForm(CategorieType::class, $categorie);
-        $form->add('ajout', SubmitType::class, ['label' => 'Envoi !',]);
+        $form->add('ajout', SubmitType::class, ['label' => 'Ajouter !', 'attr'  => array('class' => 'btn btn-default')]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -90,8 +90,8 @@ class CategorieController extends Controller {
 
 
         $form = $this->createForm(CategorieType::class, $categorie);
-        $form->add('ajout', SubmitType::class, ['label' => 'Envoi !',])
-                ->add('supprimer', SubmitType::class, ['label' => 'Supprimer !',]);
+        $form->add('ajout', SubmitType::class, ['label' => 'Modifier !', 'attr'  => array('class' => 'btn btn-default')])
+                ->add('supprimer', SubmitType::class, ['label' => 'Supprimer !', 'attr'  => array('class' => 'btn btn-danger')]);
 
         $form->handleRequest($request);
 

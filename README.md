@@ -126,3 +126,21 @@ utiliser des méthodes personnalisées dans le repository car pour afficher une 
 sera plus lourd.  J'utilise des test et des flashbags pour tester certaines chose je devrais peut-être modifier certaines choses pour 
 utiliser la gestion d'exceptions**
 
+8. Un peu de mise en forme
+--------------------------
+
+J'ai appliqué le design simple [materialDesign.homePage] (https://github.com/Jeanphinov/materialDesign.homePage) pour mettre un
+peu de formes et de couleur au travail déjà accompli. La réfléxion est venu des formulaires.  
+En fait twig utilise un des themes fournis pour mettre en forme le formulaire : 
+  
+-- form_div_layout.html.twig  
+-- form_table_layout.html.twig  
+-- bootstrap_3_layout.html.twig  
+-- bootstrap_3_horizontal_layout.html.twig  
+-- foundation_5_layout.html.twig, wrap  
+
+Il suffit de configurer le form_theme de twig dans le config.yml et le formulaire est presque comme on le souhaite.  
+J'ai utilisé 'bootstrap_3_horizontal_layout.html.twig' qui me convient.   
+Si on veut modifier le formulaire plus en profondeur on peux soit ajouter une classe à tel ou tel élément du formulaire dans la vue, 
+soit modifier le theme de base en ajoutant un fichier, l'utilisant avec la commande {% form_theme form 'form/nom_fichier.html.twig' %}
+
