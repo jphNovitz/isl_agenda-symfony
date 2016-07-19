@@ -1,13 +1,20 @@
 {% extends 'base.html.twig' %}
-{% block  page_heading %} Liste des évènements {% endblock %}
+
+{% block page_heading %} Liste des Evènements {% endblock %}
+
 {% block body %}
-    <p>
-    <ul>
-        {% for event in events %}
-            <li><a href="{{path('event_detail',{'id':event.id})}}">{{event.nom}} </a>({{event.categorie}})</li>
 
-        {% endfor %}
+    {% for event in events|sort %}
+        <div class="row">
+            <div class="col-lg-offset-3 col-lg-4 liste">
+                <a href='{{path('event_detail',{'id':event.id})}}'> {{event.nom}} </a>
+            </div>
+            <div class="col-lg-2 btn-group">
+                <a class="btn btn-default btn-xs liste-btn" href="{{path('event_detail',{'id':event.id})}}" role="button">Detail</a>
 
-    </ul>
-</p>
+            </div>
+        </div>
+    {% endfor %}
+
+
 {% endblock %}

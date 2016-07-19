@@ -1,13 +1,20 @@
 {% extends 'base.html.twig' %}
-{% block  page_heading %} Liste des participants {% endblock %}
+
+{% block page_heading %} Liste des Participants {% endblock %}
+
 {% block body %}
-    <p>
-    <ul>
-        <ul>
-            {% for participant in participants %}
-                <li><a href='{{path('participant_detail',{'id':participant.id})}}'> {{participant.nom}} </a></li>
-                {% endfor %}
-        </ul>
-    </ul>
-</p>
+
+    {% for participant in participants|sort %}
+        <div class="row">
+            <div class="col-lg-offset-3 col-lg-4 liste">
+                <a href='{{path('participant_detail',{'id':participant.id})}}'> {{participant.nom}} </a>
+            </div>
+            <div class="col-lg-2 btn-group">
+                <a class="btn btn-default btn-xs liste-btn" href="{{path('participant_detail',{'id':participant.id})}}" role="button">Detail</a>
+
+            </div>
+        </div>
+    {% endfor %}
+
+
 {% endblock %}
