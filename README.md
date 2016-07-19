@@ -144,3 +144,5 @@ J'ai utilisé 'bootstrap_3_horizontal_layout.html.twig' qui me convient.
 Si on veut modifier le formulaire plus en profondeur on peux soit ajouter une classe à tel ou tel élément du formulaire dans la vue, 
 soit modifier le theme de base en ajoutant un fichier, l'utilisant avec la commande {% form_theme form 'form/nom_fichier.html.twig' %}
 
+Les listes de categories (public et admin) se font rapidement grâce à Bootstrap.  
+
