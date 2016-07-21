@@ -1,27 +1,45 @@
 {% extends 'base.html.twig' %}
 {% block  page_heading %}  {{event.nom }}  :  Détail {% endblock %}
+
 {% block body %}
-    <div class="row">
-        <div class="col-lg-offset-1 col-lg-1  col-xs-12">
-            <img src="{{event.image}}" /> 
-        </div>
-        <div class="col-lg-offset-1 col-lg-8  col-xs-12">
-            {{event.description}} 
-        </div>
-    </div>
-    <div class="row" style="padding-top: 16px;">
-        <div class="col-lg-offset-1 col-lg-6  col-xs-12">
-            <p>Participants:
-            <ul>
-                {% for participant in event.participants %}
-                    <li> {{participant.nom}}</li>
-                    {% endfor %}
-            </ul>
+    <div class="jumbotron">
+        <div class="row info">
+            <div class="col-lg-offset-2 col-lg-2">Debut: {{event.debut|date("d/m/y")}} </div>
+            <div class="col-lg-2">
+                fin: {% if event.fin is not null %}
+                {{event.debut|date("d/m/y")}}
+                {% else%} n/a {% endif %}
+                    </div>
 
-            </p>
-        </div>
+                    <div class="col-lg-4"> Categorie: 
+                        {% if event.categorie is not null %}
+                            {{event.categorie}}
+                        {% else%} n/a{% endif %}</div>
+
+                </div>
+                <div class="row">
+                    <div class="col-lg-offset-1 col-lg-1 col-xs-offset-1 col-xs-1">
+                        <img src="{{event.image}}" /> 
+                    </div>
+                    <div class="col-lg-offset-1 col-lg-9 col-xs-offset-1 col-xs-9">
+                        <ul>
+                            {% for participant in event.participants %}
+                                <li> {{participant.nom}}</li>
+                                {% endfor %}
+                        </ul>
+
+                    </div>
+                </div>
+                <div class="row description">
+                    <div class="col-lg-offset-1 col-lg-10 col-lg-offset-1">
+                        {{event.description}}
+                        
+
+                    </div>
+                </div>
+            </div>
 
 
-    </div>
-{% endblock %}
+
+            {% endblock %}
 

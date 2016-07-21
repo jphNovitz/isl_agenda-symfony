@@ -1,25 +1,32 @@
 {% extends 'base.html.twig' %}
 {% block  page_heading %}  {{participant.nom }}  {{participant.prenom }} :  Détail {% endblock %}
 {% block body %}
-    <div class="row">
-        <div class="col-lg-offset-1 col-lg-1 col-xs-offset-1 col-xs-1">
-            <img src="{{participant.image}}" /> 
+    <div class="jumbotron">
+        <div class="row">
+            <div class="col-lg-offset-1 col-lg-1 col-xs-offset-1 col-xs-1">
+                <img src="{{participant.image}}" /> 
+            </div>
+            <div class="col-lg-offset-1 col-lg-9 col-xs-offset-1 col-xs-9">
+                <div class="row detail">
+                    <div class="col-lg-2 ">Nom: </div>
+                    <div class="col-lg-9">{{participant.nom }}</div> 
+                </div>
+                <div class="row detail">
+                    <div class="col-lg-2">Prenom: </div>
+                    <div class="col-lg-9">{{participant.prenom }}</div> 
+                </div>
+            </div>
         </div>
-        <div class="col-lg-offset-1 col-lg-9 col-xs-offset-1 col-xs-9">
-            <p>Nom: {{participant.nom }} 
-                <br />Prenom: {{participant.prenom }}
-            </p>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-lg-offset-1 col-lg-6  col-xs-offset-1 col-xs-1">
-            <br />Présent au évènements suivants:
-            <ul>
+        <div class="row">
+            <div class="col-lg-offset-1 col-lg-6  col-xs-offset-1 col-xs-1">
+                <br />Présent au évènements suivants:
+                <ul>
 
-                {% for event in participant.events %}
-                    <li> {{event.nom}}</li>
-                    {% endfor %}
-            </ul>
+                    {% for event in participant.events %}
+                        <li> <a href="{{path('event_detail',{'id':event.id})}}">{{event.nom}}</a> ({{event.debut|localizeddate('long','none')}})</li>
+                        {% endfor %}
+                </ul>
+            </div>
         </div>
     </div>
 
