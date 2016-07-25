@@ -15,7 +15,8 @@ class ParticipantController extends Controller
     {
         $em=$this->getDoctrine()->getManager();
         $repo=$em->getRepository('AppBundle\Entity\Participant');
-        $participants=$repo->findAll();
+       // $participants=$repo->findAll(); findAll() remplacé par myFindAll()
+        $participants=$repo->myFindAll();
         
         return $this->render('public/participant-list.html.twig',['participants'=>$participants]);
     }

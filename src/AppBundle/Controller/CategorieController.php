@@ -17,8 +17,12 @@ class CategorieController extends Controller {
     public function listAction() {
         $em = $this->getDoctrine()->getManager();
         $repo = $em->getRepository('AppBundle\Entity\Categorie');
-        $categories = $repo->findAll();
-
+       /*
+        * $categories = $repo->findAll(); est remplacé par muFindAll qui ne séléctionne que les id et noms
+        * plus cours et peut-être plus rapide
+        */
+        
+      $categories = $repo->myFindAll();
         return $this->render('public/categorie-list.html.twig', ['categories' => $categories]);
     }
 
@@ -30,7 +34,6 @@ class CategorieController extends Controller {
         $repo = $em->getRepository('AppBundle\Entity\Categorie');
         $categorie = $repo->find($id);
 
-
         return $this->render('public/categorie-detail.html.twig', ['categorie' => $categorie]);
     }
 
@@ -40,7 +43,7 @@ class CategorieController extends Controller {
     public function adminListAction() {
         $em = $this->getDoctrine()->getManager();
         $repo = $em->getRepository('AppBundle\Entity\Categorie');
-        $categories = $repo->findAll();
+        $categories = $repo->myFindAll();
 
         return $this->render('admin/categorie-list.html.twig', ['categories' => $categories]);
     }

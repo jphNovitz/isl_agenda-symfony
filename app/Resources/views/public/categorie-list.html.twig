@@ -1,21 +1,20 @@
 {% extends 'base.html.twig' %}
 
-    {% block page_heading %} Liste des Catégories {% endblock %}
+{% block page_heading %} Liste des Catégories {% endblock %}
 
 {% block body %}
 
     {% for categorie in categories|sort%}
         <div class="row">
             <div class="col-lg-offset-3 col-lg-4 liste">
-                <a href='{{path('categorie_detail',{'id':categorie.id})}}'> {{categorie.nom}}</a>
+                <a href='{{path('categorie_detail', {'id': categorie.id})}}'> {{categorie.nom}}</a>
             </div>
             <div class="col-lg-2 btn-group">
-                <a class="btn btn-default btn-xs liste-btn" href="{{path('categorie_detail',{'id':categorie.id})}}" role="button">Detail</a>
-                
+                <a class="btn btn-default btn-xs liste-btn" href="{{path('categorie_detail', {'id': categorie.id})}}" role="button">Detail</a>
+
             </div>
         </div>
     {% endfor %}
-
 
 {% endblock %}
 

@@ -10,4 +10,14 @@ namespace AppBundle\Repository;
  */
 class EventRepository extends \Doctrine\ORM\EntityRepository
 {
+    
+    public function myFindAll(){
+       
+        
+        $query = $this->_em->createQuery('SELECT e.id, e.nom  FROM AppBundle:Event e');
+        return $query->getResult();
+        
+        
+        
+    }
 }
