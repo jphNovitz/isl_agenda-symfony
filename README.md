@@ -152,4 +152,11 @@ Les listes de categories (public et admin) se font rapidement grâce à Bootstra
 Je modifie un peu la methode findAll par muFindAll en utilisant le DQL dans le repository.
 Cela me permet de mieux controller ce que je récupère.
 
+10. Personnalisation des pages 404.  
+----------------------------------  
+
+creétion des fichier error404.html.twig (prod) et exception.html.twig (dev) dans le nouveau dossier
+app/Ressources/TwigBundle/views/Exception/......
+
+
 
