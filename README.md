@@ -146,3 +146,10 @@ soit modifier le theme de base en ajoutant un fichier, l'utilisant avec la comma
 
 Les listes de categories (public et admin) se font rapidement grâce à Bootstrap.  
 
+9.  DQL -> myFindAll  
+--------------------  
+
+Je modifie un peu la methode findAll par muFindAll en utilisant le DQL dans le repository.
+Cela me permet de mieux controller ce que je récupère.
+
+

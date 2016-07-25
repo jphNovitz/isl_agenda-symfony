@@ -4,6 +4,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
+
 /**
  * Event
  *
@@ -62,6 +63,7 @@ class Event
     /**
      * 
      * @ORM\ManyToOne(targetEntity="Categorie", inversedBy="events")
+     * @ORM\JoinColumn(name="categorie_id", onDelete="SET NULL")
      */
     private $categorie;
     
