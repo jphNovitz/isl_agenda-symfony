@@ -6,9 +6,9 @@
             {{msg}}
         {% endfor %}
     </div>
-{%elseif app.session.flashBag.has('avertissement') %}
-    <div class="alert alert-avertissement">
-        {% for msg in app.session.flashBag.get('avertissement') %}
+{%elseif app.session.flashBag.has('warning') %}
+    <div class="alert alert-warning">
+        {% for msg in app.session.flashBag.get('warning') %}
             {{msg}}
         {% endfor %}
     </div>
