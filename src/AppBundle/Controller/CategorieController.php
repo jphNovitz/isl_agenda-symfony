@@ -4,6 +4,8 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Categorie;
 use AppBundle\Form\CategorieType;
+use AppBundle\Utils\MyFlashes;
+
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -63,9 +65,9 @@ class CategorieController extends Controller {
             $em->persist($categorie);
             $em->flush();
 
-            $this->flash($request, 'success', 'l\'élement a bien été ajouté');
+            MyFlashes::flash($request, 'success', 'l\'élement a bien été ajouté');
 
-            return $this->redirectToRoute('categorie_list');
+            return $this->redirectToRoute('categorie_admin_list');
         }
 
         return $this->render('admin/categorie_add.html.twig', ['form' => $form->createView(), 'action' => 'ajout']);
@@ -77,7 +79,7 @@ class CategorieController extends Controller {
      */
     public function updateAction(Request $request, $id) {
         if ($id == 0) {
-            $this->flash($request, 'avertissement', 'Cet id n\'esiste pas');
+            $this->flash($request, 'avertissement', 'Cet id n\'existe pas');
             return $this->redirectToRoute('categorie_list');
         }
 
@@ -107,7 +109,7 @@ class CategorieController extends Controller {
             $em->persist($categorie);
             $em->flush();
 
-            $this->flash($request, 'success', 'l\'élement a bien été modifié');
+            MyFlashes::flash($request, 'success', 'l\'élement a bien été modifié');
             return $this->redirectToRoute('categorie_list');
         }
 
@@ -130,7 +132,7 @@ class CategorieController extends Controller {
         if ($form->isSubmitted() && $form->isValid()) {
             $em->remove($categorie);
             $em->flush();
-            $this->flash($request, 'success', 'l\'élement a bien été supprimé');
+            MyFlashes::flash($request, 'success', 'l\'élement a bien été supprimé');
             return $this->redirectToRoute('categorie_list');
         }
 
@@ -138,14 +140,6 @@ class CategorieController extends Controller {
         ['informations' => $categorie, 'form' =>$form->createView()]);
     }
 
-    /*     * *
-     *  Methodes pour soulager les controllers
-     * * */
-
-    public function flash(Request $request, $type, $message) {
-        $request->getSession()
-                ->getFlashBag()
-                ->add($type, $message);
-    }
+    
 
 }

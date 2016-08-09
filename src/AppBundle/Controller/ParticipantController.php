@@ -4,6 +4,8 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Participant;
 use AppBundle\Form\ParticipantType;
+use AppBundle\Utils\MyFlashes;
+
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Config\Definition\Exception\Exception;
@@ -62,8 +64,8 @@ class ParticipantController extends Controller {
             $em = $this->getDoctrine()->getManager();
             $em->persist($participant);
             $em->flush();
-
-            $this->flash($request, 'success', 'l\'élement a bien été ajouté');
+            
+            MyFlashes::flash($request, 'success', 'l\'élement a bien été ajouté');
 
             return $this->redirectToRoute('homepage');
         }
@@ -79,19 +81,26 @@ class ParticipantController extends Controller {
      */
     public function updateAction(Request $request, $id) {
 
-        /* recuperation du participant correspondant à id */
         try {
-            if (is_null($id))
+            if (is_null($id)) {
                 throw new Exception("id ne peut etre null");
-            if ($id == 0)
+                // je leve une exception si $id=null
+            }
+            if ($id == 0) {
                 throw new Exception("zero n'est pas un id valide");
+                // je leve une exception si $id=0
+            }
 
+            /* recuperation du participant correspondant à id */
             $participant = new Participant();
             $manager = $this->getDoctrine()->getManager();
             $repo = $manager->getRepository('AppBundle\Entity\Participant');
             $participant = $repo->find($id);
-            if (empty($participant))
+
+            if (empty($participant)) {
                 throw new Exception("L'élément n'existe pas");
+                // je lève une exception si je ne trouve pas l'enregistrement
+            }
 
             /*
              * creation du formulaire rempli avec les info récupérée 
@@ -106,17 +115,28 @@ class ParticipantController extends Controller {
             if ($form->isSubmitted() && $form->isValid()) {
                 $manager->persist($participant);
                 $manager->flush();
-                $this->flash($request, 'success', 'l\'élement a bien été modifié');
+               // $this->flash($request, 'success', 'l\'élement a bien été modifié');
+               
+               
+               
+               MyFlashes::flash($request, 'success', 'l\'élement a bien été modifié');
+                
                 return $this->redirectToRoute('admin_participant_list');
             }
+            
             /*
              * si tout est ok je je persiste dans la BD et j'affiche la liste des participants 
              * sinon j'affiche le formulaire 
              */
             return $this->render('admin/participant-form.html.twig', ['form' => $form->createView(), 'action' => 'modification']);
-        } catch (Exception $e) {
+        }
 
-            $this->flash($request, 'warning', $e->getMessage());
+        /*
+         *  je recupere l'exception levée je crée un message flash et re redirrige vers la liste en indiquant pourquoi
+         */ catch (Exception $e) {
+
+
+            MyFlashes::flash($request, 'warning', $e->getMessage());
             return $this->redirectToRoute('admin_participant_list');
         }
     }
@@ -130,10 +150,6 @@ class ParticipantController extends Controller {
         return $this->render();
     }
 
-    public function flash(Request $request, $type, $message) {
-        $request->getSession()
-                ->getFlashBag()
-                ->add($type, $message);
-    }
+    
 
 }
