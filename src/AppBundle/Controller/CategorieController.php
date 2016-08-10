@@ -5,7 +5,6 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Categorie;
 use AppBundle\Form\CategorieType;
 use AppBundle\Utils\MyFlashes;
-
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -19,12 +18,12 @@ class CategorieController extends Controller {
     public function listAction() {
         $em = $this->getDoctrine()->getManager();
         $repo = $em->getRepository('AppBundle\Entity\Categorie');
-       /*
-        * $categories = $repo->findAll(); est remplacé par muFindAll qui ne séléctionne que les id et noms
-        * plus cours et peut-être plus rapide
-        */
-        
-      $categories = $repo->myFindAll();
+        /*
+         * $categories = $repo->findAll(); est remplacé par muFindAll qui ne séléctionne que les id et noms
+         * plus cours et peut-être plus rapide
+         */
+
+        $categories = $repo->myFindAll();
         return $this->render('public/categorie-list.html.twig', ['categories' => $categories]);
     }
 
@@ -57,7 +56,7 @@ class CategorieController extends Controller {
         $categorie = new Categorie();
 
         $form = $this->createForm(CategorieType::class, $categorie);
-        $form->add('ajout', SubmitType::class, ['label' => 'Ajouter !', 'attr'  => array('class' => 'btn btn-default')]);
+        $form->add('ajout', SubmitType::class, ['label' => 'Ajouter !', 'attr' => array('class' => 'btn btn-default')]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -78,43 +77,62 @@ class CategorieController extends Controller {
      * @Route("/admin/categorie/update/", defaults={"id":0}, name="categorie_update_noid")
      */
     public function updateAction(Request $request, $id) {
-        if ($id == 0) {
-            $this->flash($request, 'avertissement', 'Cet id n\'existe pas');
-            return $this->redirectToRoute('categorie_list');
-        }
 
-        $categorie = new Categorie();
-        $em = $this->getDoctrine()->getManager();
-        $repo = $em->getRepository('AppBundle\Entity\Categorie');
-        $categorie = $repo->find($id);
-
-        if ($categorie == null) {
-            $this->flash($request, 'avertissement', 'Categorie inconnue !');
-            return $this->redirectToRoute('categorie_add');
-        }
-
-
-        $form = $this->createForm(CategorieType::class, $categorie);
-        $form->add('ajout', SubmitType::class, ['label' => 'Modifier !', 'attr'  => array('class' => 'btn btn-default')])
-                ->add('supprimer', SubmitType::class, ['label' => 'Supprimer !', 'attr'  => array('class' => 'btn btn-danger')]);
-
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-
-            if ($form->get('supprimer')->isClicked()) {
-                return $this->redirectToRoute('categorie_delete', ['id' => $id]);
+        try {
+            if (is_null($id)) {
+                throw new Exception("id ne peut etre null");
+                // je leve une exception si $id=null
+            }
+            if ($id == 0) {
+                throw new Exception("zero n'est pas un id valide");
+                // je leve une exception si $id=0
             }
 
-            $em->persist($categorie);
-            $em->flush();
+            $categorie = new Categorie();
+            $em = $this->getDoctrine()->getManager();
+            $repo = $em->getRepository('AppBundle\Entity\Categorie');
+            $categorie = $repo->find($id);
 
-            MyFlashes::flash($request, 'success', 'l\'élement a bien été modifié');
-            return $this->redirectToRoute('categorie_list');
+            if (empty($categorie)) {
+                throw new Exception("L'élément n'existe pas");
+                // je lève une exception si je ne trouve pas l'enregistrement
+            }
+
+
+            $form = $this->createForm(CategorieType::class, $categorie);
+            $form->add('ajout', SubmitType::class, ['label' => 'Modifier !', 'attr' => array('class' => 'btn btn-default')])
+                    ->add('supprimer', SubmitType::class, ['label' => 'Supprimer !', 'attr' => array('class' => 'btn btn-danger')]);
+
+            /* je verifie que le formulaire j'arrive ici via submission du formulaire et que celui ci est valide */
+            $form->handleRequest($request);
+
+            if ($form->isSubmitted() && $form->isValid()) {
+                if ($form->get('supprimer')->isClicked()) {
+                    return $this->redirectToRoute('categorie_delete', ['id' => $id]);
+                }
+
+                $em->persist($categorie);
+                $em->flush();
+
+                MyFlashes::flash($request, 'success', 'l\'élement a bien été modifié');
+                return $this->redirectToRoute('categorie_list');
+            }
+
+            /*
+             * si tout est ok je je persiste dans la BD et j'affiche la liste des participants 
+             * sinon j'affiche le formulaire 
+             */
+            return $this->render('admin/categorie_add.html.twig', ['form' => $form->createView(), 'action' => 'modification']);
         }
 
+        /*
+         *  je recupere l'exception levée je crée un message flash et re redirrige vers la liste en indiquant pourquoi
+         */ catch (Exception $e) {
 
-        return $this->render('admin/categorie_add.html.twig', ['form' => $form->createView(), 'action' => 'modification']);
+
+            MyFlashes::flash($request, 'warning', $e->getMessage());
+            return $this->redirectToRoute('admin_participant_list');
+        }
     }
 
     /**
@@ -136,10 +154,7 @@ class CategorieController extends Controller {
             return $this->redirectToRoute('categorie_list');
         }
 
-        return $this->render('admin/form_delete_confirmation.html.twig',
-        ['informations' => $categorie, 'form' =>$form->createView()]);
+        return $this->render('admin/form_delete_confirmation.html.twig', ['informations' => $categorie, 'form' => $form->createView()]);
     }
-
-    
 
 }

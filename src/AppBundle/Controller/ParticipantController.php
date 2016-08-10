@@ -5,7 +5,7 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Participant;
 use AppBundle\Form\ParticipantType;
 use AppBundle\Utils\MyFlashes;
-
+use AppBundle\Utils\MyDelete;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Config\Definition\Exception\Exception;
@@ -64,7 +64,7 @@ class ParticipantController extends Controller {
             $em = $this->getDoctrine()->getManager();
             $em->persist($participant);
             $em->flush();
-            
+
             MyFlashes::flash($request, 'success', 'l\'élement a bien été ajouté');
 
             return $this->redirectToRoute('homepage');
@@ -90,7 +90,7 @@ class ParticipantController extends Controller {
                 throw new Exception("zero n'est pas un id valide");
                 // je leve une exception si $id=0
             }
-
+            
             /* recuperation du participant correspondant à id */
             $participant = new Participant();
             $manager = $this->getDoctrine()->getManager();
@@ -110,20 +110,20 @@ class ParticipantController extends Controller {
             $form->add('ajout', SubmitType::class, ['label' => 'Modifier !', 'attr' => array('class' => 'btn btn-default')])
                     ->add('supprimer', SubmitType::class, ['label' => 'Supprimer !', 'attr' => array('class' => 'btn btn-danger')]);
 
-            /* je verrifie que le formulaire j'arrive ici via submission du formulaire et que celui ci est valide */
+            /* je verifie que le formulaire j'arrive ici via submission du formulaire et que celui ci est valide */
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
+                if ($form->get('supprimer')->isClicked()) {
+                    return $this->redirectToRoute('participant_delete', ['id' => $id]);
+                }
                 $manager->persist($participant);
                 $manager->flush();
-               // $this->flash($request, 'success', 'l\'élement a bien été modifié');
-               
-               
-               
-               MyFlashes::flash($request, 'success', 'l\'élement a bien été modifié');
-                
+
+                MyFlashes::flash($request, 'success', 'l\'élement a bien été modifié');
+
                 return $this->redirectToRoute('admin_participant_list');
             }
-            
+
             /*
              * si tout est ok je je persiste dans la BD et j'affiche la liste des participants 
              * sinon j'affiche le formulaire 
@@ -142,14 +142,26 @@ class ParticipantController extends Controller {
     }
 
     /**
-     * @Route("/admin/participant/delete/", name="participant_delete")
+     * @Route("/admin/participant/delete/{id}", name="participant_delete")
      */
-    public function deleteAction() {
+    public function deleteAction(Request $request, $id) {
+        $em = $this->getDoctrine()->getManager();
+        $participant = $em->getRepository('AppBundle\Entity\Participant')->find($id);
 
+        $form = $this->createFormBuilder($participant)
+                ->add('supprimer', SubmitType::class, ['label' => 'OUI Supprimer !'])
+                ->getForm();
 
-        return $this->render();
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em->remove($participant);
+            $em->flush();
+            MyFlashes::flash($request, "success", "l'élement a bien été supprimé");
+            return $this->redirectToRoute('admin_participant_list');
+        }
+
+        return $this->render('admin/form_delete_confirmation.html.twig',
+        ['informations' => $participant, 'form' =>$form->createView()]);
     }
-
-    
 
 }
