@@ -10,8 +10,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="participant")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\ParticipantRepository")
  */
-class Participant
-{
+class Participant {
+
     /**
      * @var int
      *
@@ -34,7 +34,7 @@ class Participant
      * @ORM\Column(name="prenom", type="string", length=255, nullable=true)
      */
     private $prenom;
-    
+
     /**
      *
      * @var type image
@@ -55,8 +55,8 @@ class Participant
      *
      * @return int
      */
-    public function getId()
-    {
+
+    public function getId() {
         return $this->id;
     }
 
@@ -67,8 +67,7 @@ class Participant
      *
      * @return Participant
      */
-    public function setNom($nom)
-    {
+    public function setNom($nom) {
         $this->nom = $nom;
 
         return $this;
@@ -79,8 +78,7 @@ class Participant
      *
      * @return string
      */
-    public function getNom()
-    {
+    public function getNom() {
         return $this->nom;
     }
 
@@ -91,8 +89,7 @@ class Participant
      *
      * @return Participant
      */
-    public function setPrenom($prenom)
-    {
+    public function setPrenom($prenom) {
         $this->prenom = $prenom;
 
         return $this;
@@ -103,8 +100,7 @@ class Participant
      *
      * @return string
      */
-    public function getPrenom()
-    {
+    public function getPrenom() {
         return $this->prenom;
     }
 
@@ -115,8 +111,7 @@ class Participant
      *
      * @return Participant
      */
-    public function setImage(\AppBundle\Entity\image $image = null)
-    {
+    public function setImage(\AppBundle\Entity\image $image = null) {
         $this->image = $image;
 
         return $this;
@@ -127,15 +122,14 @@ class Participant
      *
      * @return \AppBundle\Entity\image
      */
-    public function getImage()
-    {
+    public function getImage() {
         return $this->image;
     }
+
     /**
      * Constructor
      */
-    public function __construct()
-    {
+    public function __construct() {
         $this->events = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
@@ -146,8 +140,7 @@ class Participant
      *
      * @return Participant
      */
-    public function addEvent(\AppBundle\Entity\Event $event)
-    {
+    public function addEvent(\AppBundle\Entity\Event $event) {
         $this->events[] = $event;
 
         return $this;
@@ -158,8 +151,7 @@ class Participant
      *
      * @param \AppBundle\Entity\Event $event
      */
-    public function removeEvent(\AppBundle\Entity\Event $event)
-    {
+    public function removeEvent(\AppBundle\Entity\Event $event) {
         $this->events->removeElement($event);
     }
 
@@ -168,12 +160,20 @@ class Participant
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getEvents()
-    {
+    public function getEvents() {
         return $this->events;
     }
     
+    function setEvents($events) {
+
+        if (!is_array($events)) {
+            $events = array($events);
+        }
+        $this->events = $events;
+    }
+
     public function __toString() {
         return $this->getNom();
     }
+
 }

@@ -12,9 +12,10 @@
         {{form_row(form.nom)}}
         {{form_row(form.prenom)}}
         {{form_row(form.image)}}
+      {#  {{form_row(form.events)}} #}
         <div class="btn-group col-lg-offset-2">
 
-            {{form_widget(form.ajout,{'attr': {'': ''}} )}} 
+            {{form_widget(form.ajout,{'attr': {'': ''}} )}}
             {% if form.supprimer is defined %}
                 {{form_widget(form.supprimer,{'attr': {'': ''}} )}}
             {% endif %}
@@ -26,5 +27,3 @@
     </div>
 
 {% endblock %}
-
-

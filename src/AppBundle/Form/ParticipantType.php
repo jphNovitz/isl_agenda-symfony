@@ -6,6 +6,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class ParticipantType extends AbstractType {
 
@@ -18,7 +19,8 @@ class ParticipantType extends AbstractType {
                 ->add('nom')
                 ->add('prenom')
                 ->add('image', ImageType::class)
-                ->remove('events')
+               ->add('ajout', SubmitType::class, ['label' => 'action !', 'attr' => array('class' => 'btn btn-default')])
+                    ->add('supprimer', SubmitType::class, ['label' => 'Supprimer !', 'attr' => array('class' => 'btn btn-danger')]);
         ;
     }
 

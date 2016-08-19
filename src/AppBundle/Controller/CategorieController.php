@@ -4,7 +4,6 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Categorie;
 use AppBundle\Form\CategorieType;
-use AppBundle\Utils\MyFlashes;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -64,7 +63,7 @@ class CategorieController extends Controller {
             $em->persist($categorie);
             $em->flush();
 
-            MyFlashes::flash($request, 'success', 'l\'élement a bien été ajouté');
+            $this->addFlash("success", "l'élement a bien été ajouté");
 
             return $this->redirectToRoute('categorie_admin_list');
         }
@@ -114,7 +113,7 @@ class CategorieController extends Controller {
                 $em->persist($categorie);
                 $em->flush();
 
-                MyFlashes::flash($request, 'success', 'l\'élement a bien été modifié');
+                $this->addFlash("success", "l'élement a bien été modifié");
                 return $this->redirectToRoute('categorie_list');
             }
 
@@ -128,9 +127,7 @@ class CategorieController extends Controller {
         /*
          *  je recupere l'exception levée je crée un message flash et re redirrige vers la liste en indiquant pourquoi
          */ catch (Exception $e) {
-
-
-            MyFlashes::flash($request, 'warning', $e->getMessage());
+            $this->addFlash("warning", $e->getMessage());
             return $this->redirectToRoute('admin_participant_list');
         }
     }
@@ -150,7 +147,7 @@ class CategorieController extends Controller {
         if ($form->isSubmitted() && $form->isValid()) {
             $em->remove($categorie);
             $em->flush();
-            MyFlashes::flash($request, 'success', 'l\'élement a bien été supprimé');
+            $this->addFlash("success", "l'élement a bien été supprimé");
             return $this->redirectToRoute('categorie_list');
         }
 
