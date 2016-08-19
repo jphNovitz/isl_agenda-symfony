@@ -38,10 +38,20 @@ class EventController extends Controller {
     /**
      * @Route("/admin/event/add/", name="event_add")
      */
-    public function addAction() {
+    public function addAction(Request $request) {
+        $event = new Event();
+        $form = $this->createForm(\AppBundle\Form\EventType::class, $event);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $manager=$this->getDoctrine()->getManager();
+            $manager->persist($event);
+            $manager->flush();
+            return $this->redirectToRoute('event_list');
+        }
 
 
-        return $this->render();
+
+        return $this->render('admin/event-form.html.twig', ['form' => $form->createView(), 'action'=>'ajout']);
     }
 
     /**
