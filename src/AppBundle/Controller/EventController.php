@@ -43,15 +43,16 @@ class EventController extends Controller {
         $form = $this->createForm(\AppBundle\Form\EventType::class, $event);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $manager=$this->getDoctrine()->getManager();
+            $manager = $this->getDoctrine()->getManager();
             $manager->persist($event);
             $manager->flush();
-            return $this->redirectToRoute('event_list');
+            $id = $event->getId();
+            $this->addFlash("success", "l'élement a bien été ajouté");
+            
+            return $this->redirectToRoute('event_detail', ['id' => $id]);
         }
 
-
-
-        return $this->render('admin/event-form.html.twig', ['form' => $form->createView(), 'action'=>'ajout']);
+        return $this->render('admin/event-form.html.twig', ['form' => $form->createView(), 'action' => 'ajout']);
     }
 
     /**

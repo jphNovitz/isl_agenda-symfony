@@ -65,10 +65,10 @@ class ParticipantController extends Controller {
             $em = $this->getDoctrine()->getManager();
             $em->persist($participant);
             $em->flush();
-
+            $id = $participant->getId();
             $this->addFlash("success", "l'élement a bien été ajouté");
 
-            return $this->redirectToRoute('homepage');
+            return $this->redirectToRoute('participant_detail', ['id' => $id]);
         }
 
         return $this->render('admin/participant-form.html.twig', ['form' => $form->createView(), 'action' => 'ajout']);
@@ -157,7 +157,7 @@ class ParticipantController extends Controller {
         if ($form->isSubmitted() && $form->isValid()) {
             $em->remove($participant);
             $em->flush();
-            $this->addFlash( "success", "l'élement a bien été supprimé");
+            $this->addFlash("success", "l'élement a bien été supprimé");
             return $this->redirectToRoute('admin_participant_list');
         }
 
