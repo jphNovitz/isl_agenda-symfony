@@ -1,5 +1,15 @@
 <?php
 
+/**
+ * Isl Agenda Symfony / page EventController.php
+ * Petit agenda d'évènement 
+ * Juin-Septembre 2016
+ * Novitz Jean-Philippe
+ * @jeanphinov on Github
+ * hello@jiphi.be 
+ * 
+ */
+
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Event;
@@ -9,6 +19,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 class EventController extends Controller {
 
@@ -16,10 +27,8 @@ class EventController extends Controller {
      * @Route("/event/list/", name="event_list")
      */
     public function listAction() {
-        $em = $this->getDoctrine()->getManager();
-        $repo = $em->getRepository('AppBundle\Entity\Event');
-        //$events=$repo->findAll(); // find() remplacé par myFindAll()
-        $events = $repo->myFindAll();
+
+        $events = $this->getListEvent();
 
         return $this->render('public/event-list.html.twig', ['events' => $events]);
         //event est au pluriel car je renvoie un tableau de tous les events
@@ -27,15 +36,19 @@ class EventController extends Controller {
 
     /**
      * @Route("/event/{id}", name="event_detail")
+     * @ParamConverter("event", class="AppBundle:Event")
      */
-    public function detailAction($id) {
-        $em = $this->getDoctrine()->getManager();
-        $repo = $em->getRepository('AppBundle\Entity\Event');
-        $event = $repo->find($id);
+    public function detailAction(Request $request, Event $event = null, $id) {
 
-
-        return $this->render('public/event-detail.html.twig', ['event' => $event]);
-        //event est au singulier car je renvoie le detail d'un event
+        try {
+            if (empty($event)) {
+                throw new Exception("Evènement introuvable");
+            }
+            return $this->render('public/event-detail.html.twig', ['event' => $event]);
+        } catch (Exception $e) {
+            $this->addFlash("warning", $e->getMessage());
+            return $this->redirectToRoute("event_list");
+        }
     }
 
     /**
@@ -63,26 +76,15 @@ class EventController extends Controller {
      *  requirements={"id": "\d+"},
      *  defaults={"id": null},
      *  name="event_update")
+     * @paramConverter("event", class="AppBundle:Event")
      */
-    public function updateAction(Request $request, $id) {
+    public function updateAction(Request $request, Event $event, $id) {
 
         try {
-            if (is_null($id)) {
-                throw new Exception(" Verifiez l'id");
-            }
-            if ($id <= 0) {
-                throw new Exception(" l'id fournie est impossible");
-            }
-
-            /**
-             * Recuperation de l'objet evenement
-             */
-            $event = new Event();
-            $manager = $this->getDoctrine()->getManager();
-            $event = $manager->getRepository('AppBundle\Entity\Event')->find($id);
             if (empty($event)) {
-                throw new Exception("l'élement est introuvable");
-            }
+                throw new Exception("élément introuvable");
+            } 
+
             /**
              * Creation du formulaire
              */
@@ -101,7 +103,7 @@ class EventController extends Controller {
                 if ($form->get('supprimer')->isClicked()) {
                     return $this->redirectToRoute("admin_event_delete", ['id' => $id]);
                 }
-
+                $manager=$this->getDoctrine()->getManager();
                 $manager->persist($event);
                 $manager->flush();
 
@@ -131,10 +133,15 @@ class EventController extends Controller {
             $manager->flush();
             $this->addFlash("success", "l'élement a bien été supprimé");
             return $this->redirectToRoute('event_list');
-            
         }
-       
+
         return $this->render('admin/form_delete_confirmation.html.twig', ['informations' => $event, 'form' => $form->createView()]);
+    }
+
+    public function getListEvent() {
+        $em = $this->getDoctrine()->getManager();
+        $repo = $em->getRepository('AppBundle\Entity\Event');
+        return $repo->myFindAll();
     }
 
 }
