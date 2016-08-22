@@ -54,8 +54,8 @@
 ### Symfony Patch ###
 /web/bundles/
 /web/uploads/
-/web/css/
-/web/js/
+!/web/css/
+!/web/js/
 
 
 ### SymphonyCMS ###
