@@ -111,7 +111,7 @@ class ParticipantController extends Controller {
 
             if (empty($participant)) {
                 throw new Exception("L'élément n'existe pas");
-                // je lève une exception si je ne trouve pas l'enregistrement
+                // je lève une exception si je ne trouve pas l'objet
             }
 
             /*
