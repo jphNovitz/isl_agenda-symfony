@@ -30,7 +30,7 @@ class CategorieController extends Controller {
     public function listAction() {
 
         //$categories = $this->getListCategories();
-         $categories=  $this->get("utils")->getList("Categorie");
+        $categories = $this->get("utils")->getList("Categorie");
 
         return $this->render('public/categorie-list.html.twig', ['categories' => $categories]);
     }
@@ -39,7 +39,7 @@ class CategorieController extends Controller {
      * @Route("/categorie/{id}", name="categorie_detail")
      * @ParamConverter("categorie", class="AppBundle:Categorie")
      */
-    public function detailAction(Request $request, Categorie $categorie = null) {
+    public function detailAction(Categorie $categorie = null) {
 
         try {
             if (empty($categorie)) {
@@ -50,6 +50,7 @@ class CategorieController extends Controller {
             $this->addFlash('warning', $e->getMessage());
             return $this->redirectToRoute('categorie_list');
         }
+        $this->get("utils")->getDetails($request, $categorie);
     }
 
     /**
@@ -57,7 +58,8 @@ class CategorieController extends Controller {
      */
     public function adminListAction() {
 
-        $categories = $this->getListCategories();
+        // $categories = $this->getListCategories();
+        $categories = $this->get("utils")->getList("Categorie");
 
         return $this->render('admin/categorie-list.html.twig', ['categories' => $categories]);
     }
@@ -66,6 +68,7 @@ class CategorieController extends Controller {
      * @Route("/admin/categorie/add/", name="admin_categorie_add")
      */
     public function addAction(Request $request) {
+
         $categorie = new Categorie();
         $form = $this->createForm(CategorieType::class, $categorie);
 // Fat Model Slim Controllers => je met le maximum concerant mon formumailre dans un fichier Type (il est fait pour cela)
@@ -73,19 +76,22 @@ class CategorieController extends Controller {
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($categorie);
-            $em->flush();
-            $id = $categorie->getId();
+            /* $em = $this->getDoctrine()->getManager();
+              $em->persist($categorie);
+              $em->flush();
+              $id = $categorie->getId();
+              $this->addFlash("success", "l'élement a bien été ajouté"); */
+            $id = $this->get("Utils")->myPersist($categorie);
+            //$id = $categorie->getId();
             $this->addFlash("success", "l'élement a bien été ajouté");
 
-            return $this->redirectToRoute('categorie_detail',['id'=>$id]);
+            return $this->redirectToRoute('categorie_detail', ['id' => $id]);
         }
 
         return $this->render('admin/categorie_add.html.twig', ['form' => $form->createView(), 'action' => 'ajout']);
     }
 
-  /**
+    /**
      * @Route("/admin/categorie/update/{id}",
      *  requirements={"id": "\d+"},
      *  defaults={"id": null},
@@ -109,13 +115,14 @@ class CategorieController extends Controller {
                 if ($form->get('supprimer')->isClicked()) {
                     return $this->redirectToRoute('admin_categorie_delete', ['id' => $id]);
                 }
-                $manager = $this->getDoctrine()->getManager();
+               /* $manager = $this->getDoctrine()->getManager();
                 $manager->persist($categorie);
                 $manager->flush();
-                $id=$categorie->getId();
+                $id = $categorie->getId();*/
+                $id = $this->get("Utils")->myPersist("persist",$categorie);
                 $this->addFlash("success", "l'élement a bien été modifié");
 
-                return $this->redirectToRoute('categorie_detail', ['id'=>$id]);
+                return $this->redirectToRoute('categorie_detail', ['id' => $id]);
             }
 
             /*
@@ -147,9 +154,10 @@ class CategorieController extends Controller {
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
+            /*$em = $this->getDoctrine()->getManager();
             $em->remove($categorie);
-            $em->flush();
+            $em->flush();*/
+            $id = $this->get("Utils")->myPersist("remove",$categorie);
             $this->addFlash("success", "l'élement a bien été supprimé");
             return $this->redirectToRoute('admin_categorie_list');
         }
@@ -163,10 +171,9 @@ class CategorieController extends Controller {
      *  je la met ici je n'ai plus qu'à l'utiliser pour mes deux Action
      *  moins de code moins d'erreurs
      */
-    public function getListCategories() {
-        $em = $this->getDoctrine()->getManager();
-        $repo = $em->getRepository('AppBundle\Entity\Categorie');
-        return $repo->myFindAll();
-    }
-
+    /* public function getListCategories() {
+      $em = $this->getDoctrine()->getManager();
+      $repo = $em->getRepository('AppBundle\Entity\Categorie');
+      return $repo->myFindAll();
+      } */
 }
