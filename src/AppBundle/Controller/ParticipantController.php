@@ -12,13 +12,10 @@
 
 namespace AppBundle\Controller;
 
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use AppBundle\Entity\Participant;
-use AppBundle\Entity\Event;
 use AppBundle\Form\ParticipantType;
-use AppBundle\Form\EventType;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -127,6 +124,8 @@ class ParticipantController extends Controller {
                 if ($form->get('supprimer')->isClicked()) {
                     return $this->redirectToRoute('admin_participant_delete', ['id' => $id]);
                 }
+                
+       
                 $manager = $this->getDoctrine()->getManager();
                 $manager->persist($participant);
                 $manager->flush();

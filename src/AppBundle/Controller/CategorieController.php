@@ -29,7 +29,8 @@ class CategorieController extends Controller {
      */
     public function listAction() {
 
-        $categories = $this->getListCategories();
+        //$categories = $this->getListCategories();
+         $categories=  $this->get("utils")->getList("Categorie");
 
         return $this->render('public/categorie-list.html.twig', ['categories' => $categories]);
     }
