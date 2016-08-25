@@ -29,9 +29,7 @@ class CategorieController extends Controller {
      */
     public function listAction() {
 
-        //$categories = $this->getListCategories();
         $categories = $this->get("utils")->getList("Categorie");
-
         return $this->render('public/categorie-list.html.twig', ['categories' => $categories]);
     }
 
@@ -50,17 +48,13 @@ class CategorieController extends Controller {
             $this->addFlash('warning', $e->getMessage());
             return $this->redirectToRoute('categorie_list');
         }
-        $this->get("utils")->getDetails($request, $categorie);
     }
 
     /**
      * @Route("/admin/categorie/", name="admin_categorie_list")
      */
     public function adminListAction() {
-
-        // $categories = $this->getListCategories();
         $categories = $this->get("utils")->getList("Categorie");
-
         return $this->render('admin/categorie-list.html.twig', ['categories' => $categories]);
     }
 
@@ -76,13 +70,8 @@ class CategorieController extends Controller {
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            /* $em = $this->getDoctrine()->getManager();
-              $em->persist($categorie);
-              $em->flush();
-              $id = $categorie->getId();
-              $this->addFlash("success", "l'élement a bien été ajouté"); */
+           
             $id = $this->get("Utils")->myPersist($categorie);
-            //$id = $categorie->getId();
             $this->addFlash("success", "l'élement a bien été ajouté");
 
             return $this->redirectToRoute('categorie_detail', ['id' => $id]);
@@ -115,10 +104,7 @@ class CategorieController extends Controller {
                 if ($form->get('supprimer')->isClicked()) {
                     return $this->redirectToRoute('admin_categorie_delete', ['id' => $id]);
                 }
-               /* $manager = $this->getDoctrine()->getManager();
-                $manager->persist($categorie);
-                $manager->flush();
-                $id = $categorie->getId();*/
+               
                 $id = $this->get("Utils")->myPersist("persist",$categorie);
                 $this->addFlash("success", "l'élement a bien été modifié");
 
@@ -154,9 +140,6 @@ class CategorieController extends Controller {
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            /*$em = $this->getDoctrine()->getManager();
-            $em->remove($categorie);
-            $em->flush();*/
             $id = $this->get("Utils")->myPersist("remove",$categorie);
             $this->addFlash("success", "l'élement a bien été supprimé");
             return $this->redirectToRoute('admin_categorie_list');
@@ -165,15 +148,8 @@ class CategorieController extends Controller {
         return $this->render('admin/form_delete_confirmation.html.twig', ['informations' => $categorie, 'form' => $form->createView()]);
     }
 
-    /**
-     *  Fonction getListCategorie()
-     *  fonction qui sera utilisé pour créer les listes public et admin
-     *  je la met ici je n'ai plus qu'à l'utiliser pour mes deux Action
-     *  moins de code moins d'erreurs
+    
+    /* 
+     * L'utilisation de deux services m'a fait réduire le code de 28 ligne ;-) j'ai trois controlleurs 
      */
-    /* public function getListCategories() {
-      $em = $this->getDoctrine()->getManager();
-      $repo = $em->getRepository('AppBundle\Entity\Categorie');
-      return $repo->myFindAll();
-      } */
 }
