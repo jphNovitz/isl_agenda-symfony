@@ -28,7 +28,7 @@ class ParticipantController extends Controller {
      */
     public function listAction() {
 
-        $participants = $this->getListParticipant();
+        $participants = $this->get("utils")->getList("Participant");
 
         return $this->render('public/participant-list.html.twig', ['participants' => $participants]);
     }
@@ -55,7 +55,7 @@ class ParticipantController extends Controller {
      */
     public function adminListAction() {
         
-        $participants = $this->getListParticipant();
+        $participants = $this->get("utils")->getList("Participant");
 
         return $this->render('admin/participant-list.html.twig', ['participants' => $participants]);
     }
@@ -83,10 +83,8 @@ class ParticipantController extends Controller {
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($participant);
-            $em->flush();
-            $id = $participant->getId();
+           
+            $id = $this->get("Utils")->myPersist($participant);
             $this->addFlash("success", "l'élement a bien été ajouté");
 
             return $this->redirectToRoute('participant_detail', ['id' => $id]);
@@ -125,14 +123,10 @@ class ParticipantController extends Controller {
                     return $this->redirectToRoute('admin_participant_delete', ['id' => $id]);
                 }
                 
-       
-                $manager = $this->getDoctrine()->getManager();
-                $manager->persist($participant);
-                $manager->flush();
-
+                $id = $this->get("Utils")->myPersist("persist",$participant);
                 $this->addFlash("success", "l'élement a bien été modifié");
 
-                return $this->redirectToRoute('admin_participant_list');
+                return $this->redirectToRoute('participant_detail', ['id' => $id]);
             }
 
             /*
@@ -164,9 +158,7 @@ class ParticipantController extends Controller {
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($participant);
-            $em->flush();
+            $id = $this->get("Utils")->myPersist("remove",$participant);
             $this->addFlash("success", "l'élement a bien été supprimé");
             return $this->redirectToRoute('admin_participant_list');
         }
@@ -180,11 +172,4 @@ class ParticipantController extends Controller {
      *  je la met ici je n'ai plus qu'à l'utiliser pour mes deux Action
      *  moins de code moins d'erreurs
      */
-
-    public function getListParticipant() {
-        $em = $this->getDoctrine()->getManager();
-        $repo = $em->getRepository('AppBundle\Entity\Participant');
-        return $repo->myFindAll();
     }
-
-}

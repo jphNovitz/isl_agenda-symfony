@@ -39,7 +39,7 @@ class Utils {
         ($action=="persist") ? $this->em->persist($entite):( ($action=="remove")?$this->em->remove($entite):null);
         $this->em->flush();
        
-        return $entite->getId();;
+        return $entite->getId();
     }
 
 }
