@@ -28,10 +28,8 @@ class EventController extends Controller {
      */
     public function listAction() {
 
-        $events = $this->getListEvent();
-
+        $events = $this->get("utils")->getList("Event");
         return $this->render('public/event-list.html.twig', ['events' => $events]);
-        //event est au pluriel car je renvoie un tableau de tous les events
     }
 
     /**
@@ -52,17 +50,24 @@ class EventController extends Controller {
     }
 
     /**
+     * @Route("/admin/event/", name="admin_event_list")
+     */
+    public function adminListAction() {
+        $events = $this->get("utils")->getList("Event");
+        return $this->render('admin/event-list.html.twig', ['events' => $events]);
+    }
+
+    /**
      * @Route("/admin/event/add/", name="event_add")
      */
     public function addAction(Request $request) {
         $event = new Event();
         $form = $this->createForm(EventType::class, $event);
         $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
-            $manager = $this->getDoctrine()->getManager();
-            $manager->persist($event);
-            $manager->flush();
-            $id = $event->getId();
+           
+            $id = $this->get("Utils")->myPersist($event);
             $this->addFlash("success", "l'élement a bien été ajouté");
 
             return $this->redirectToRoute('event_detail', ['id' => $id]);
@@ -83,7 +88,7 @@ class EventController extends Controller {
         try {
             if (empty($event)) {
                 throw new Exception("élément introuvable");
-            } 
+            }
 
             /**
              * Creation du formulaire
@@ -103,10 +108,8 @@ class EventController extends Controller {
                 if ($form->get('supprimer')->isClicked()) {
                     return $this->redirectToRoute("admin_event_delete", ['id' => $id]);
                 }
-                $manager=$this->getDoctrine()->getManager();
-                $manager->persist($event);
-                $manager->flush();
 
+                $id = $this->get("Utils")->myPersist("persist",$event);
                 $this->addFlash("success", "l'élement a bien été modifié");
             }
             return $this->render('admin/event-form.html.twig', ['form' => $form->createView(), 'action' => 'modification']);
@@ -127,10 +130,7 @@ class EventController extends Controller {
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-
-            $manager = $this->getDoctrine()->getManager();
-            $manager->remove($event);
-            $manager->flush();
+            $id = $this->get("Utils")->myPersist("remove",$event);
             $this->addFlash("success", "l'élement a bien été supprimé");
             return $this->redirectToRoute('event_list');
         }
@@ -138,10 +138,5 @@ class EventController extends Controller {
         return $this->render('admin/form_delete_confirmation.html.twig', ['informations' => $event, 'form' => $form->createView()]);
     }
 
-    public function getListEvent() {
-        $em = $this->getDoctrine()->getManager();
-        $repo = $em->getRepository('AppBundle\Entity\Event');
-        return $repo->myFindAll();
-    }
 
 }
