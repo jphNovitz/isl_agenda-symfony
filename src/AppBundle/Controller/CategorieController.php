@@ -2,7 +2,7 @@
 
 /**
  * Isl Agenda Symfony / page CategorieController.php
- * Petit agenda d'évènement 
+ * Petit agenda d'évènements
  * Juin-Septembre 2016
  * Novitz Jean-Philippe
  * @jeanphinov on Github
