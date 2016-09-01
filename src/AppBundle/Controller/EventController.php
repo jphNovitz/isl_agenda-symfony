@@ -24,7 +24,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 class EventController extends Controller {
 
     /**
-     * @Route("/event/list/", name="event_list")
+     * @Route("/event/", name="event_list")
      */
     public function listAction() {
 
@@ -50,15 +50,16 @@ class EventController extends Controller {
     }
 
     /**
-     * @Route("/admin/event/", name="admin_event_list")
+     * @Route("admin/event/", name="admin_event_list")
      */
     public function adminListAction() {
+
         $events = $this->get("utils")->getList("Event");
         return $this->render('admin/event-list.html.twig', ['events' => $events]);
     }
 
     /**
-     * @Route("/admin/event/add/", name="event_add")
+     * @Route("/admin/event/add/", name="admin_event_add")
      */
     public function addAction(Request $request) {
         $event = new Event();
@@ -77,13 +78,13 @@ class EventController extends Controller {
     }
 
     /**
-     * @Route("/admin/event/update/{id}")
+     * @Route("/admin/event/update/{id}",
      *  requirements={"id": "\d+"},
      *  defaults={"id": null},
-     *  name="event_update")
+     *  name="admin_event_update")
      * @paramConverter("event", class="AppBundle:Event")
      */
-    public function updateAction(Request $request, Event $event, $id) {
+    public function updateAction($id, Request $request, Event $event) {
 
         try {
             if (empty($event)) {

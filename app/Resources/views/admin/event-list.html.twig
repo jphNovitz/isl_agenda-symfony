@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+{% block page_heading %} Liste des Evènements (ADMIN){% endblock %}
+
+{% block body %}
+
+    {% for event in events|sort%}
+        <div class="row">
+            <div class="col-lg-offset-3 col-lg-4 liste">
+                <a href='{{path('event_detail',{'id':event.id})}}'> {{event.nom}}</a>
+            </div>
+            <div class="col-lg-2 btn-group">
+                <a class="btn btn-default btn-xs liste-btn" href="{{path('event_detail',{'id':event.id})}}" role="button">Detail</a>
+                <a class="btn btn-primary btn-xs liste-btn" href="{{path('admin_event_update',{'id':event.id})}}" role="button">Modifier</a>
+                <a class="btn btn-danger btn-xs liste-btn" href="{{path('admin_event_delete',{'id':event.id})}}" role="button">supprimer</a>
+
+            </div>
+        </div>
+    {% endfor %}
+
+{% endblock %}
+
